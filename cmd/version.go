@@ -1,6 +1,5 @@
 /*
 Copyright © 2023 NAME HERE <EMAIL ADDRESS>
-
 */
 package cmd
 
@@ -10,7 +9,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var appVersion="Version"
+var appVersion = "Version"
 
 // versionCmd represents the version command
 var versionCmd = &cobra.Command{
@@ -24,7 +23,7 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println(appVersion)
-	},	
+	},
 }
 
 func init() {
