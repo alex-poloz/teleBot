@@ -16,7 +16,6 @@ import (
 var (
 	// TeleToken bot
 	TeleToken = os.Getenv("TELE_TOKEN")
-	// TeleToken = "6974335970:AAF8Rn0zcw8AltUl39nGTVB8_RE5mzvWnA0"
 )
 
 // teleBotCmd represents the teleBot command
