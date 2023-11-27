@@ -26,26 +26,43 @@ get:
 	go get
 
 build: format get
-	CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETOSARCH} go build -v -o telebot -ldflags "-X="github.com/alex-poloz/telebot/cmd.appVersion=${VERSION}
+	@printf "$GDetected OS/ARCH: $R$(detected_OS)/$(detected_arch)$D\n"
+	CGO_ENABLED=0 GOOS=$(detected_OS) GOARCH=$(detected_arch) go build -v -o kbot -ldflags "-X="github.com/vit-um/kbot/cmd.appVersion=${VERSION}
+
+linux: format get
+	@printf "$GTarget OS/ARCH: $Rlinux/$(detected_arch)$D\n"
+	CGO_ENABLED=0 GOOS=linux GOARCH=$(detected_arch) go build -v -o kbot -ldflags "-X="github.com/vit-um/kbot/cmd.appVersion=${VERSION}
+	docker build --build-arg name=linux -t ${REGESTRY}/${APP}:${VERSION}-linux-$(detected_arch) .
+
+windows: format get
+	@printf "$GTarget OS/ARCH: $Rwindows/$(detected_arch)$D\n"
+	CGO_ENABLED=0 GOOS=windows GOARCH=$(detected_arch) go build -v -o kbot -ldflags "-X="github.com/vit-um/kbot/cmd.appVersion=${VERSION}
+	docker build --build-arg name=windows -t ${REGESTRY}/${APP}:${VERSION}-windows-$(detected_arch) .
+
+darwin:format get
+	@printf "$GTarget OS/ARCH: $Rdarwin/$(detected_arch)$D\n"
+	CGO_ENABLED=0 GOOS=darwin GOARCH=$(detected_arch) go build -v -o kbot -ldflags "-X="github.com/vit-um/kbot/cmd.appVersion=${VERSION}
+	docker build --build-arg name=darwin -t ${REGESTRY}/${APP}:${VERSION}-darwin-$(detected_arch) .
+
+arm: format get
+	@printf "$GTarget OS/ARCH: $R$(detected_OS)/arm$D\n"
+	CGO_ENABLED=0 GOOS=$(detected_OS) GOARCH=arm go build -v -o kbot -ldflags "-X="github.com/vit-um/kbot/cmd.appVersion=${VERSION}
+	docker build --build-arg name=arm -t ${REGESTRY}/${APP}:${VERSION}-$(detected_OS)-arm .
 
 image: build
 	docker build . -t ${REGESTRY}/${APP}:${VERSION}-$(detected_arch)
 
 push:
-	docker push ${REGISTRY}/${APP}:${VERSION}-$(detected_arch)
+	docker push ${REGESTRY}/${APP}:${VERSION}-$(detected_arch)
+
+dive: image
+	IMG1=$$(docker images -q | head -n 1); \
+	CI=true docker run -ti --rm -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive --ci --lowestEfficiency=0.99 $${IMG1}; \
+	IMG2=$$(docker images -q | sed -n 2p); \
+	docker rmi $${IMG1}; \
+	docker rmi $${IMG2}
 
 clean:
-	rm -rf telebot; \
-	docker rmi ${REGISTRY}/${APP}:${VERSION}-$(detected_arch)
-
-# linux: TARGETOS=linux
-# linux: build image push clean
-
-linux: # Build for linucx, by default this made for arm64
-	${MAKE} build TARGETOS=linux
-
-windows: # Build for windows, by default this made for arm64
-	${MAKE} build TARGETOS=windows
-
-macos: # Build for macos, by default this made for arm64
-	${MAKE} build TARGETOS=darwin
+	@rm -rf kbot; \
+	IMG1=$$(docker images -q | head -n 1); \
+	if [ -n "$${IMG1}" ]; then  docker rmi -f $${IMG1}; else printf "$RImage not found$D\n"; fi
