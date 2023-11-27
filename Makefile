@@ -1,8 +1,17 @@
 APP=$(shell basename $(shell git remote get-url origin) |cut -d '.' -f1)
 REGESTRY=polozoleks
 VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
-TARGETOS ?=linux
-TARGETOSARCH ?=arm64
+
+ifeq '$(findstring ;,$(PATH))' ';'
+    detected_OS := windows
+	detected_arch := amd64
+else
+    detected_OS := $(shell uname | tr '[:upper:]' '[:lower:]' 2> /dev/null || echo Unknown)
+    detected_OS := $(patsubst CYGWIN%,Cygwin,$(detected_OS))
+    detected_OS := $(patsubst MSYS%,MSYS,$(detected_OS))
+    detected_OS := $(patsubst MINGW%,MSYS,$(detected_OS))
+	detected_arch := $(shell dpkg --print-architecture 2>/dev/null || amd64)
+endif
 
 format:
 	gofmt -s -w ./
@@ -23,11 +32,11 @@ image: build
 	docker build . -t ${REGESTRY}/${APP}:${VERSION}-$(detected_arch)
 
 push:
-	docker push ${REGISTRY}/${APP}:${VERSION}-${TARGETOS}-${TARGETOSARCH}
+	docker push ${REGISTRY}/${APP}:${VERSION}-$(detected_arch)
 
 clean:
-	rm -rf telebot
-	docker rmi ${REGISTRY}/${APP}:${VERSION}-${TARGETOS}-${TARGETOSARCH}
+	rm -rf telebot; \
+	docker rmi ${REGISTRY}/${APP}:${VERSION}-$(detected_arch)
 
 # linux: TARGETOS=linux
 # linux: build image push clean
