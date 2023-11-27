@@ -13,7 +13,7 @@ get:
 build: format get
 	CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${shell dpkg --print-architecture} go build -v -o telebot -ldflags "-X="github.com/alex-poloz/telebot/cmd.appVersion=${VERSION}
 
-image: build
+image:
 	docker build . -t ${REGESTRY}/${APP}:${VERSION}-${TARGETARCH}
 
 push:
