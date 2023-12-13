@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: write-all
+      contents: write
       packages: write
       id-token: write
 # перший крок задачі дозволить запускати на ранері репозиторій із скриптами для виконання дії. 
