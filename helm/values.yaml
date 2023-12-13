@@ -3,7 +3,9 @@
 # Declare variables to be passed into your templates.
 replicaCount: 1
 image:
-  repository: "mimetic-radio-405219"
+  registry: "ghcr.io"
+  repository: "alex-poloz/telebot"
+  pullPolicy: IfNotPresent # Дозволяє замінити образ за замовчуванням
   tag: "v1.1.1-c0c8b8d"
   arch: ""
 secret:
