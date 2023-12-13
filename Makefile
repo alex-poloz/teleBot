@@ -1,12 +1,14 @@
-APP=$(shell basename $(shell git remote get-url origin) |cut -d '.' -f1)
+APP := $(shell basename $(shell git remote get-url origin))
 REGESTRY=ghcr.io/alex-poloz
 VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
-TARGETOS=linux
-TARGETARCH=amd64
-PATHNAME=$(REGESTRY):$(VERSION)-$(TARGETOS)-$(TARGETARCH)
+TARGETOS=linux #linux darwin windows
+TARGETARCH=arm64 #amd64 arm64
 
 format:
 	gofmt -s -w ./
+
+lint:
+	golint
 
 test:
 	go test -v
@@ -18,23 +20,11 @@ build: format get
 	CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -v -o telebot -ldflags "-X="github.com/alex-poloz/telebot/cmd.appVersion=${VERSION}
 
 image:
-	docker build . -t $(PATHNAME)
+	docker build . -t ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH}  --build-arg TARGETARCH=${TARGETARCH}
 
 push:
-	docker push $(PATHNAME)
+	docker push ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH}
 
 clean:
-	rm -rf telebot
-	docker rmi $(PATHNAME) -f
-
-linux: format get
-	CGO_ENABLED=0 GOOS=arm GOARCH=${shell dpkg --print-architecture} go build -v -o telebot -ldflags "-X="github.com/alex-poloz/telebot/cmd.appVersion=${VERSION}
-
-windows: format get
-	CGO_ENABLED=0 GOOS=windows GOARCH=${shell dpkg --print-architecture} go build -v -o telebot -ldflags "-X="github.com/alex-poloz/telebot/cmd.appVersion=${VERSION}
-
-arm: format get
-	CGO_ENABLED=0 GOOS=windows GOARCH=${TARGETARCH} go build -v -o telebot -ldflags "-X="github.com/alex-poloz/telebot/cmd.appVersion=${VERSION}
-
-macos: format get
-	CGO_ENABLED=0 GOOS=ios GOARCH=${shell dpkg --print-architecture} go build -v -o telebot -ldflags "-X="github.com/alex-poloz/telebot/cmd.appVersion=${VERSION}
+	rm -rf kbot
+	docker rmi ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH}
