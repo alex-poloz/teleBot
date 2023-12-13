@@ -7,6 +7,9 @@ TARGETARCH=amd64
 format:
 	gofmt -s -w ./
 
+test:
+	go test -v
+
 get:
 	go get
 
