@@ -4,8 +4,8 @@
 replicaCount: 1
 image:
   repository: "mimetic-radio-405219"
-  tag: "v2.0.0"
-  arch: amd64
+  tag: "v1.1.1-c8acead"
+  arch: ""
 secret:
   name: "kbot"
   env: "TELE_TOKEN"
