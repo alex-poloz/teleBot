@@ -3,7 +3,7 @@ REGESTRY :=ghcr.io/alex-poloz/telebot
 VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
 TARGETOS=linux
 TARGETARCH=amd64
-PATHNAME=${REGESTRY}:${VERSION}-${TARGETOS}-${TARGETARCH}
+PATHNAME=${REGESTRY}:${VERSION}-${TARGETOS}-$(TARGETARCH)
 
 format:
 	gofmt -s -w ./
