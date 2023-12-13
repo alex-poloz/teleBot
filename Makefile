@@ -1,5 +1,5 @@
 APP=$(shell basename $(shell git remote get-url origin) |cut -d '.' -f1)
-REGESTRY=alex-poloz/telebot
+REGESTRY=ghcr.io/alex-poloz/telebot
 VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
 TARGETOS=linux
 TARGETARCH=amd64
