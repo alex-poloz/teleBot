@@ -7,7 +7,8 @@ image:
   repository: "alex-poloz/telebot"
   pullPolicy: IfNotPresent # Дозволяє замінити образ за замовчуванням
   tag: "v1.1.1-cf69d08"
-  arch: ""
+  os: linux
+  arch: amd64
 secret:
   name: "telebot"
   env: "TELE_TOKEN"
