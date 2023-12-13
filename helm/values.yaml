@@ -6,9 +6,9 @@ image:
   registry: "ghcr.io"
   repository: "alex-poloz/telebot"
   pullPolicy: IfNotPresent # Дозволяє замінити образ за замовчуванням
-  tag: "v1.1.1-cf69d08"
+  tag: "v1.1.1-4dad6db"
   os: linux
-  arch: amd64
+  arch: ""
 secret:
   name: "telebot"
   env: "TELE_TOKEN"
