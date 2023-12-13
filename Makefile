@@ -28,4 +28,4 @@ push:
 
 clean:
 	rm -rf kbot
-	docker rmi ${PATHNAME}-
+	docker rmi ${PATHNAME}
