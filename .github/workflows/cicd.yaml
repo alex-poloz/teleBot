@@ -25,7 +25,7 @@ jobs:
         uses: docker/login-action@v3        
         with:
           username: ${{ github.actor }}
-          password: ${{ secrets.GHCR_TOKEN }}
+          password: ${{ secrets.GITHUB_TOKEN }}
           
       - name: Build&Push
         env:
