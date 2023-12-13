@@ -3,6 +3,7 @@ REGESTRY=ghcr.io/alex-poloz
 VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
 TARGETOS=linux
 CH=amd64
+PATHNAME=$(REGISTRY_GH):$(VERSION)-$(TARGETOS)-$(CH)
 
 format:
 	gofmt -s -w ./
@@ -20,11 +21,11 @@ build: format get
 	CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${CH} go build -v -o telebot -ldflags "-X="github.com/alex-poloz/telebot/cmd.appVersion=${VERSION}
 
 image:
-	docker build . -t ${REGISTRY}/${APP}:${VERSION}-${TARGETOS} --build-arg TARGETARCH={CH}
+	docker build . -t ${PATHNAME}
 
 push:
-	docker push ${REGISTRY}/${APP}:${VERSION}-${TARGETOS}
+	docker push ${PATHNAME}
 
 clean:
 	rm -rf kbot
-	docker rmi ${REGISTRY}/${APP}:${VERSION}-${TARGETOS}-
+	docker rmi ${PATHNAME}-
