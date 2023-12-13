@@ -7,8 +7,8 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: 'read'
-      id-token: 'write'
+      contents: write
+      id-token: write
 # перший крок задачі дозволить запускати на ранері репозиторій із скриптами для виконання дії. 
     steps:
       - name: Checkout
