@@ -9,7 +9,7 @@ image:
   tag: "v1.1.1-c0c8b8d"
   arch: ""
 secret:
-  name: "kbot"
+  name: "telebot"
   env: "TELE_TOKEN"
   key: "token"
 securityContext:
