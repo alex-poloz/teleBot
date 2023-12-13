@@ -1,0 +1,14 @@
+name: KBOT-CICD
+
+on: push
+jobs:
+  ci:
+    name: CI
+    runs-on: ubuntu-latest
+# перший крок задачі дозволить запускати на ранері репозиторій із скриптами для виконання дії. 
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+# наступним кроком запустимо команду make test, зробимо коміт та подивимось як це працює
+      - name: Run test
+        run: make test
