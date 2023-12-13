@@ -3,7 +3,7 @@ REGESTRY=ghcr.io/alex-poloz
 VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
 TARGETOS=linux
 CH=amd64
-PATHNAME=$(REGISTRY_GH):$(VERSION)-$(TARGETOS)-$(CH)
+PATHNAME=$(REGISTRY):$(VERSION)-$(TARGETOS)-$(CH)
 
 format:
 	gofmt -s -w ./
