@@ -6,7 +6,7 @@ image:
   registry: "ghcr.io"
   repository: "alex-poloz/telebot"
   pullPolicy: IfNotPresent # Дозволяє замінити образ за замовчуванням
-  tag: "v1.1.1-0d53dc2"
+  tag: "v1.1.1-cf69d08"
   arch: ""
 secret:
   name: "telebot"
