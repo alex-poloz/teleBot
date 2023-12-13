@@ -8,7 +8,7 @@ image:
   pullPolicy: IfNotPresent # Дозволяє замінити образ за замовчуванням
   tag: "v1.1.1-4dad6db"
   os: linux
-  arch: ""
+  arch: amd64
 secret:
   name: "telebot"
   env: "TELE_TOKEN"
