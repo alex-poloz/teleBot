@@ -21,11 +21,11 @@ build: format get
 	CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -v -o telebot -ldflags "-X="github.com/alex-poloz/telebot/cmd.appVersion=${VERSION}
 
 image:
-	docker build . -t ${PATHNAME}
+	docker build . -t ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH}  --build-arg TARGETARCH=${TARGETARCH}
 
 push:
-	docker push ${PATHNAME}
+	docker push ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH}
 
 clean:
 	rm -rf kbot
-	docker rmi ${PATHNAME}
+	docker rmi ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH}
