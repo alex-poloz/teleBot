@@ -32,9 +32,9 @@ jobs:
       - name: Build&Push
         env:
           APP: "telebot"
-        run: make image push TARGETARCH=$TARGETARCH
+        run: make image push ARCHCH=$ARCHCH
       - name: Clean
-        run: make clean TARGETARCH=$TARGETARCH
+        run: make clean ARCH=$ARCH
 
   cd:
     name: CD
@@ -49,7 +49,7 @@ jobs:
 
     - uses: mikefarah/yq@master
       with:
-        cmd: yq -i '.image.tag=strenv(VERSION) | .image.arch=strenv(CH)' helm/values.yaml
+        cmd: yq -i '.image.tag=strenv(VERSION) | .image.arch=strenv(ARCH)' helm/values.yaml
     - run: |
         git config user.name github-actions
         git config user.email github-actions@github.com
